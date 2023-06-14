@@ -1,0 +1,20 @@
+name: My workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag nilufarmojtehed/web_server
+    - name: Push the image to DockerHub
+      run: docker login -u nilufarmojtehed -p ${{ secrets.DOCKER_TOKEN }} && docker push nilufarmojtehed/web_server
